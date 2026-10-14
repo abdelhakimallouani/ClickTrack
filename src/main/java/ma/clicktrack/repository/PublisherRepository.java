@@ -1,6 +1,9 @@
 package ma.clicktrack.repository;
 
-public interface PublisherRepository {
+import java.util.List;
 
-    
+import ma.clicktrack.model.Publisher;
+
+public interface PublisherRepository {
+    List<Publisher> findAll();
 }
