@@ -10,5 +10,9 @@
         class="ma.clicktrack.service.PublisherServiceImpl">
         <constructor-arg ref="publisherRepository" />
     </bean>
+    <bean id="dataInitializer"
+        class="ma.clicktrack.config.DataInitializer" init-method="init">
+        <constructor-arg ref="publisherRepository" />
+    </bean>
 
 </beans>
