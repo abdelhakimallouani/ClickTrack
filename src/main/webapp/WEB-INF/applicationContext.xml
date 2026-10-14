@@ -14,5 +14,13 @@
         class="ma.clicktrack.config.DataInitializer" init-method="init">
         <constructor-arg ref="publisherRepository" />
     </bean>
+    <bean id="lienRepository"
+        class="ma.clicktrack.repository.LienRepositoryImpl" />
+
+    <bean id="lienService"
+        class="ma.clicktrack.service.LienServiceImpl">
+        <constructor-arg ref="lienRepository" />
+        <constructor-arg ref="publisherRepository" />
+    </bean>
 
 </beans>

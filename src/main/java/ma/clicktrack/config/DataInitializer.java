@@ -3,7 +3,6 @@ package ma.clicktrack.config;
 import ma.clicktrack.model.Categorie;
 import ma.clicktrack.model.Publisher;
 import ma.clicktrack.repository.PublisherRepository;
-import ma.clicktrack.repository.PublisherRepositoryImpl;
 
 public class DataInitializer {
     private final PublisherRepository publisherRepository;
