@@ -1,5 +1,6 @@
 package ma.clicktrack.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import ma.clicktrack.model.Lien;
@@ -24,4 +25,10 @@ public class LienServiceImpl implements LienService {
         Lien newLien = new Lien(null, lien.getOffre(), lien.getUrlDestination(), publisher.get().getId());
         return Optional.of(lienRepository.save(newLien));
     }
+
+    @Override
+    public List<Lien> getLienByPubId(Long publisherId) {
+        return lienRepository.findByPublisherId(publisherId);
+    }
+
 }

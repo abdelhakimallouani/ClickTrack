@@ -1,10 +1,12 @@
 package ma.clicktrack.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +17,7 @@ import ma.clicktrack.model.Lien;
 import ma.clicktrack.repository.LienRepository;
 import ma.clicktrack.service.LienService;
 
-@RestController 
+@RestController
 @RequestMapping("/api/publishers")
 public class LienController {
     private final LienService lienService;
@@ -24,10 +26,22 @@ public class LienController {
         this.lienService = lienService;
     }
 
-    @PostMapping ("/{id}/liens")
-    public ResponseEntity<Lien> createLien(@PathVariable("id") Long publisherId, @RequestBody Lien lien ){
+    @PostMapping("/{id}/liens")
+    public ResponseEntity<Lien> createLien(@PathVariable("id") Long publisherId, @RequestBody Lien lien) {
         Optional<Lien> newLien = lienService.createLien(publisherId, lien);
         return ResponseEntity.status(HttpStatus.CREATED).body(newLien.get());
     }
-    
+
+    @GetMapping("/{id}/liens")
+    public ResponseEntity<List<Lien>> MyLiens(@PathVariable("id") Long pubId) {
+
+        try {
+            List<Lien> liens = lienService.getLienByPubId(pubId);
+            return ResponseEntity.ok(liens);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
 }
