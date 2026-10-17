@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ma.clicktrack.dto.OffreResume;
 import ma.clicktrack.model.Lien;
 import ma.clicktrack.repository.LienRepository;
 import ma.clicktrack.service.LienService;
@@ -42,6 +43,16 @@ public class LienController {
             return ResponseEntity.notFound().build();
         }
 
+    }
+
+    @GetMapping("/{id}/offers")
+    public ResponseEntity<List<OffreResume>> getOffersByPublisher(@PathVariable("id") Long pubId) {
+        try {
+            List<OffreResume> offers = lienService.getOffersbyPubId(pubId);
+            return ResponseEntity.ok(offers);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

@@ -1,8 +1,13 @@
 package ma.clicktrack.service;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import ma.clicktrack.dto.OffreResume;
 import ma.clicktrack.model.Lien;
 import ma.clicktrack.model.Publisher;
 import ma.clicktrack.repository.LienRepository;
@@ -29,6 +34,25 @@ public class LienServiceImpl implements LienService {
     @Override
     public List<Lien> getLienByPubId(Long publisherId) {
         return lienRepository.findByPublisherId(publisherId);
+    }
+
+    @Override
+    public List<OffreResume> getOffersbyPubId(Long pubId){
+        List<Lien> liens = lienRepository.findByPublisherId(pubId);
+
+        Map<String,OffreResume> offers = new LinkedHashMap<>();
+        
+        for (Lien lien : liens) {
+            String offreName = lien.getOffre();
+            OffreResume offreResume = offers.get(offreName);
+            if (offreResume == null) {
+                offreResume = new OffreResume(offreName);
+                offers.put(offreName, offreResume);
+            }
+            offreResume.incrementNbrLiens();
+            offreResume.addClicks(lien.getClicks());
+        }
+        return new ArrayList<>(offers.values());
     }
 
 }
