@@ -2,6 +2,7 @@ package ma.clicktrack.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import ma.clicktrack.model.Lien;
 
@@ -25,5 +26,10 @@ public class LienRepositoryImpl implements LienRepository {
     @Override
     public synchronized List<Lien> findByPublisherId(Long publisherId){
         return liens.stream().filter(l -> l.getPublisherId().equals(publisherId)).toList();
+    }
+
+    @Override
+    public synchronized Optional<Lien> findById(Long id) {
+        return liens.stream().filter(l -> l.getId().equals(id)).findFirst();
     }
 }
