@@ -63,7 +63,6 @@ public class LienServiceImpl implements LienService {
             return Optional.empty();
         }
         Lien lien = lienOptional.get();
-        lien.incrementClicks();
         Optional<Publisher> publisherOptional = publisherRepository.findAll().stream()
                 .filter(p -> p.getId().equals(lien.getPublisherId())).findFirst();
         if (publisherOptional.isEmpty()) {
