@@ -5,9 +5,9 @@ public class TrackLienResponse {
     private String offre;
     private String url;
     private int clicks;
-    private Long nomPublisher;
+    private String nomPublisher;
 
-    public TrackLienResponse(Long id, String offre, String url, int clicks, Long nomPublisher) {
+    public TrackLienResponse(Long id, String offre, String url, int clicks, String nomPublisher) {
         this.id = id;
         this.offre = offre;
         this.url = url;
@@ -31,7 +31,7 @@ public class TrackLienResponse {
         return clicks;
     }
 
-    public Long getNomPublisher() {
+    public String getNomPublisher() {
         return nomPublisher;
     }
 

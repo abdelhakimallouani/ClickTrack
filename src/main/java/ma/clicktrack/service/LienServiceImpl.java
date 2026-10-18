@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import ma.clicktrack.dto.OffreResume;
+import ma.clicktrack.dto.TrackLienResponse;
 import ma.clicktrack.model.Lien;
 import ma.clicktrack.model.Publisher;
 import ma.clicktrack.repository.LienRepository;
@@ -37,11 +38,11 @@ public class LienServiceImpl implements LienService {
     }
 
     @Override
-    public List<OffreResume> getOffersbyPubId(Long pubId){
+    public List<OffreResume> getOffersbyPubId(Long pubId) {
         List<Lien> liens = lienRepository.findByPublisherId(pubId);
 
-        Map<String,OffreResume> offers = new LinkedHashMap<>();
-        
+        Map<String, OffreResume> offers = new LinkedHashMap<>();
+
         for (Lien lien : liens) {
             String offreName = lien.getOffre();
             OffreResume offreResume = offers.get(offreName);
@@ -55,4 +56,21 @@ public class LienServiceImpl implements LienService {
         return new ArrayList<>(offers.values());
     }
 
+    @Override
+    public Optional<TrackLienResponse> trackClick(Long pubId) {
+        Optional<Lien> lienOptional = lienRepository.findById(pubId);
+        if (lienOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        Lien lien = lienOptional.get();
+        lien.incrementClicks();
+        Optional<Publisher> publisherOptional = publisherRepository.findAll().stream()
+                .filter(p -> p.getId().equals(lien.getPublisherId())).findFirst();
+        if (publisherOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        Publisher publisher = publisherOptional.get();
+        lien.incrementClicks();
+        return Optional.of(new TrackLienResponse(lien.getId(), lien.getOffre(), lien.getUrlDestination(), lien.getClicks(), publisher.getNom()));
+    }
 }
